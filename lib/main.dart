@@ -1,3 +1,4 @@
+// hello
 import 'dart:async';
 import 'dart:io';
 import 'dart:io' show Platform;
@@ -228,12 +229,14 @@ class MyDrawer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 10),
       height: MediaQuery.of(context).size.height - 60,
+      alignment: Alignment.centerLeft,
       child: Drawer(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20)
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 5),
+          alignment: Alignment.center,
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
