@@ -1,0 +1,25 @@
+# ninja log v5
+1	16830	6891136306271522	../../../flutter/ephemeral/flutter_windows.dll	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/flutter_export.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/flutter_windows.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/flutter_messenger.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/flutter_plugin_registrar.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/flutter_texture_registrar.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/cpp_client_wrapper/core_implementations.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/cpp_client_wrapper/standard_codec.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/cpp_client_wrapper/plugin_registrar.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/cpp_client_wrapper/flutter_engine.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	../../../flutter/ephemeral/cpp_client_wrapper/flutter_view_controller.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	flutter/_phony_	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/flutter_windows.dll	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/flutter_export.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/flutter_windows.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/flutter_messenger.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/flutter_plugin_registrar.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/flutter_texture_registrar.h	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/cpp_client_wrapper/core_implementations.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/cpp_client_wrapper/standard_codec.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/cpp_client_wrapper/plugin_registrar.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/cpp_client_wrapper/flutter_engine.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/flutter/ephemeral/cpp_client_wrapper/flutter_view_controller.cc	4d2dd4b3bc84dec4
+1	16830	6891136306271522	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/flutter/_phony_	4d2dd4b3bc84dec4

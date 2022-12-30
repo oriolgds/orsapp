@@ -1,0 +1,24 @@
+# ninja log v5
+0	57	6912597444198778	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-mkdir	353be533414889e6
+0	57	6912597444198778	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-mkdir	353be533414889e6
+58	14573	6912597589377173	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-download	7cf35ed23b205257
+58	14573	6912597589377173	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-download	7cf35ed23b205257
+14573	14620	6912597589846257	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-update	47cd80e0df503de0
+14573	14620	6912597589846257	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-update	47cd80e0df503de0
+14621	14671	6912597590319131	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-patch	54dffa2e1e1dfc38
+14621	14671	6912597590319131	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-patch	54dffa2e1e1dfc38
+14671	14737	6912597590948398	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-copyfile	dde619936cd6d944
+14671	14737	6912597590948398	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-src/nuget.exe	dde619936cd6d944
+14671	14737	6912597590948398	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-copyfile	dde619936cd6d944
+14737	14784	6912597591417603	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-configure	375329f11fdd3ba4
+14737	14784	6912597591417603	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-configure	375329f11fdd3ba4
+14784	14831	6912597591906086	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-build	a67ebcf33ebdeec
+14784	14831	6912597591906086	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-build	a67ebcf33ebdeec
+14831	14879	6912597592358812	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-install	f00591d0ee4e5f56
+14831	14879	6912597592358812	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-install	f00591d0ee4e5f56
+14879	14929	6912597592907983	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-test	1c7c85615c03c5df
+14879	14929	6912597592907983	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-test	1c7c85615c03c5df
+14929	15001	6912597593613211	CMakeFiles/nuget-populate-complete	1f44df1ce27afc5c
+14929	15001	6912597593613211	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-done	1f44df1ce27afc5c
+14929	15001	6912597593613211	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/CMakeFiles/nuget-populate-complete	1f44df1ce27afc5c
+14929	15001	6912597593613211	C:/Users/Ori/AndroidStudioProjects/orsapp/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-done	1f44df1ce27afc5c
