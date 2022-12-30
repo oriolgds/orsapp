@@ -297,14 +297,60 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+bool updatesModalShown = false;
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController _scrollController;
   @override
   void initState() {
+    super.initState();
     // initialize scroll controllers
     _scrollController = ScrollController();
     locationPermision();
-    super.initState();
+    lastUpdate().then((value){
+      if(!value){
+        updatesDialog(context);
+      }
+    });
+  }
+  Future<void> updatesDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Actualización'),
+          content: const Text('Hay una version nueva de Ors Apps disponible, si pulsas en el botón de actualizar te llevara a configuración.'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Ignorar esta version'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cerrar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Actualizar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
   @override
   Widget build(BuildContext context) {
