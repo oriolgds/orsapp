@@ -1200,7 +1200,6 @@ class _MyWeatherState extends State<MyWeather> {
       _currentWeatherSize = MediaQuery.of(context).size.height - 290;
     });
     _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-    prefs.setString('jsonWeather', jsonEncode(jsonWeather));
     _refreshController.refreshCompleted();
   }
   Future<void> showStationsDialog(BuildContext context){
@@ -1817,6 +1816,8 @@ Future<int> fetchWeatherData(double latitude, double longitude) async {
     jsonParsed = jsonDecode(res.body);
     jsonWeather = jsonParsed;
   });
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('jsonWeather', jsonEncode(jsonWeather));
   return 0;
 }
 /// Returns false if you don't have the last version
