@@ -289,7 +289,7 @@ class MyHomePage extends StatefulWidget {
 bool updatesModalShown = false;
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController _scrollController;
-  String topText = "";
+  String topText = "¡Hola! Bienvenido a Ors Apps. Una aplicación de utilidades que te facilitara el dia a dia.";
   Future<void> getTopText() async {
     final prefs = await SharedPreferences.getInstance();
     if(prefs.getString('onlineData') != null){
@@ -1215,15 +1215,19 @@ class _MyWeatherState extends State<MyWeather> {
   }
   Future<void> showStationsDialog(BuildContext context){
     return showDialog(
-      useSafeArea: false,
       context: context,
       builder: (BuildContext context){
         return AlertDialog(
+          scrollable: true,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)
+            borderRadius: BorderRadius.circular(20),
           ),
           title: const Text('Estaciones meteorológicas', style: TextStyle(fontSize: 30),),
-          content: const Text('(En desarrollo)\nLas estaciones meteorológicas te permiten guardar ubicaciones para poder consultar el tiempo de cualquier sitio'),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: const Text('(En desarrollo)\nLas estaciones meteorológicas te permiten guardar ubicaciones para poder consultar el tiempo de cualquier sitio'),
+          ),
           actions: <Widget>[
             TextButton(
               style: ButtonStyle(
