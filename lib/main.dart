@@ -279,25 +279,6 @@ class MyDrawer extends StatelessWidget {
     );
   }
 }
-class PageHome extends StatelessWidget {
-  const PageHome({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 10,
-      runSpacing: 10,
-      children: const <Widget>[
-        Separator(10),
-        Text('¡Hola! Bienvenido a Ors Apps. Una aplicación de utilidades que te facilitara el dia a dia.', style: TextStyle(fontSize: 25, fontFamily: 'Fredoka'), textAlign: TextAlign.justify),
-        Separator(0),
-        CreateCard('Ors Weather', 'Consulta la previsión del clima en un click', 'lib/assets/card-img/weather.jpg', MyWeather()),
-        CreateCard('Ors Compass', '¿Tienes curiosidad por los puntos cardinales?\n¡Usa Ors Compass!\nLa brújula más completa del mercado', 'lib/assets/card-img/brujula.png', MyCompass()),
-        CreateCard('Ors Light', '¿Estás en la oscuridad?\n¿No ves absolutamente nada?\nCreo que esta herramienta te puede ayudar...', 'lib/assets/card-img/bulb.jpg', MyLight()),
-        ],
-    );
-  }
-}
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -308,9 +289,19 @@ class MyHomePage extends StatefulWidget {
 bool updatesModalShown = false;
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController _scrollController;
+  String topText = "";
+  Future<void> getTopText() async {
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('onlineData') != null){
+      setState(() {
+        topText = jsonDecode(prefs.getString('onlineData').toString())['home']['topText'];
+      });
+    }
+  }
   @override
   void initState() {
     super.initState();
+    getTopText();
     // initialize scroll controllers
     _scrollController = ScrollController();
     locationPermision();
@@ -394,7 +385,19 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           physics: scrollPysics(context),
           controller: _scrollController,
-          child: const PageHome(),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
+            children: <Widget>[
+              const Separator(10),
+              Text(topText, style: const TextStyle(fontSize: 25, fontFamily: 'Fredoka'), textAlign: TextAlign.justify),
+              const Separator(0),
+              const CreateCard('Ors Weather', 'Consulta la previsión del clima en un click', 'lib/assets/card-img/weather.jpg', MyWeather()),
+              const CreateCard('Ors Compass', '¿Tienes curiosidad por los puntos cardinales?\n¡Usa Ors Compass!\nLa brújula más completa del mercado', 'lib/assets/card-img/brujula.png', MyCompass()),
+              const CreateCard('Ors Light', '¿Estás en la oscuridad?\n¿No ves absolutamente nada?\nCreo que esta herramienta te puede ayudar...', 'lib/assets/card-img/bulb.jpg', MyLight()),
+            ],
+          ),
         ),
       ),
     );
@@ -1742,7 +1745,8 @@ void main() async {
     statusBarBrightness: Brightness.dark
   ));
   runApp(const MyApp());
-  await getLocationPosition(LocationAccuracy.best);
+  getLocationPosition(LocationAccuracy.best);
+  getOnlineData();
 }
 Route routeShowPage(var function) {
   return PageRouteBuilder(
@@ -1842,4 +1846,10 @@ Future<bool> lastUpdate() async {
 }
 int appVersion(){
   return 304;
+}
+Future<void> getOnlineData() async {
+  final res = await http.get(Uri.parse('https://raw.githubusercontent.com/oriolgds/orsapps/main/data.json'));
+  if(res.statusCode != 200) throw Exception("Cannot get data online");
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('onlineData', res.body);
 }
