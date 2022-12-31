@@ -307,7 +307,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _scrollController = ScrollController();
     locationPermision();
     lastUpdate().then((value){
-      if(!value){
+      if(!value && !updatesModalShown){
         updatesDialog(context);
       }
     });
@@ -317,34 +317,35 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+          ),
           title: const Text('Actualización'),
-          content: const Text('Hay una version nueva de Ors Apps disponible, si pulsas en el botón de actualizar te llevara a configuración.'),
+          content: const Text('Hay una versión nueva de Ors Apps disponible. ¡Actualiza para disfrutar de las últimas funciones!'),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Ignorar esta version'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                )
               ),
               child: const Text('Cerrar'),
               onPressed: () {
+                updatesModalShown = true;
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                )
               ),
               child: const Text('Actualizar'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).push(routeShowPageVertical(const Settings()));
               },
             ),
           ],
@@ -1821,5 +1822,5 @@ Future<bool> lastUpdate() async {
   return true;
 }
 int appVersion(){
-  return 302;
+  return 303;
 }
