@@ -1188,7 +1188,12 @@ class _MyWeatherState extends State<MyWeather> {
       getAllValues(latitude, longitude);
     } else {
       await getLocationPosition(LocationAccuracy.best);
-      await fetchWeatherData(gpsLatitude, gpsLongitude);
+      await fetchWeatherData(gpsLatitude, gpsLongitude).then((value){
+        debugPrint("Returned value $value");
+        if(value == 1){
+          _refreshController.loadFailed();
+        }
+      });
       getAllValues(gpsLatitude, gpsLongitude);
     }    
     setState(() {
@@ -1799,15 +1804,20 @@ Future<Map<String, double>> getLocationPosition(accuracy) async {
     'latitude': position.latitude
   };
 }
-Future<Map<dynamic, dynamic>> fetchWeatherData(double latitude, double longitude) async {
+Future<int> fetchWeatherData(double latitude, double longitude) async {
   Map<dynamic, dynamic> jsonParsed = {};
   await getLocationPosition(LocationAccuracy.best);
   Uri jsonURL = Uri.parse('https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,weathercode,visibility,windspeed_10m,direct_radiation_instant&models=best_match&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,precipitation_sum&current_weather=true&timezone=auto');
   await http.get(jsonURL).then((res){
+    debugPrint("Status code: ${res.statusCode}");
+    if(res.statusCode != 200){
+      debugPrint("No internet connection");
+      return 1;
+    }
     jsonParsed = jsonDecode(res.body);
     jsonWeather = jsonParsed;
   });
-  return jsonParsed;
+  return 0;
 }
 /// Returns false if you don't have the last version
 Future<bool> lastUpdate() async {
