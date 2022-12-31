@@ -133,6 +133,14 @@ class _CreateCardState extends State<CreateCard> {
                 color: hexToColor('#e2e2e2'),
               ),
               borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 6)
+                )
+              ]
             ),
             child: Wrap(
               children: [
@@ -215,7 +223,6 @@ class MyApp extends StatelessWidget {
       theme: theme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
-      scrollBehavior: CustomScroll(),
       home: const MyHomePage(title: 'Ors Apps'),
     );
   }
@@ -1833,5 +1840,5 @@ Future<bool> lastUpdate() async {
   return true;
 }
 int appVersion(){
-  return 303;
+  return 304;
 }
