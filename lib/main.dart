@@ -136,9 +136,9 @@ class _CreateCardState extends State<CreateCard> {
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
+                  spreadRadius: 1,
                   blurRadius: 5,
-                  offset: Offset(0, 6)
+                  offset: const Offset(0, 3)
                 )
               ]
             ),
