@@ -245,6 +245,8 @@ class MyDrawer extends StatelessWidget {
           alignment: Alignment.center,
           child: ListView(
             padding: EdgeInsets.zero,
+            addAutomaticKeepAlives: false,
+            cacheExtent: 2,
             children: [
               SizedBox(
                 height: 100,
@@ -1232,9 +1234,35 @@ class _MyWeatherState extends State<MyWeather> {
                   alignment: WrapAlignment.spaceAround,
                   children: [
                     SizedBox(
+                      width: 92,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)
+                            )
+                          )
+                        ),
+                        onPressed: (){},
+                        child: Row(
+                          children: const <Widget>[
+                            Icon(Icons.add),
+                            Text('Crear', style: TextStyle(), maxLines: 1, overflow: TextOverflow.fade,)
+                          ],
+                        )
+                      ),
+                    ),
+                    SizedBox(
                       height: 40,
                       width: 40,
                       child: TextButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                            ),
+                          ),
                           onPressed: (){
                             showHelpStationsDialog(context);
                           },
