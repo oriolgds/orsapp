@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:math' as math;
+import 'dart:math';
 import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import 'package:torch_control/torch_control.dart';
 import 'package:http/http.dart' as http;
@@ -176,6 +177,22 @@ class CustomScroll extends ScrollBehavior {
     return child;
   }
 }
+class AdjustableScrollController extends ScrollController {
+  AdjustableScrollController([int extraScrollSpeed = 40]) {
+    super.addListener(() {
+      ScrollDirection scrollDirection = super.position.userScrollDirection;
+      if (scrollDirection != ScrollDirection.idle) {
+        double scrollEnd = super.offset +
+            (scrollDirection == ScrollDirection.reverse
+                ? extraScrollSpeed
+                : -extraScrollSpeed);
+        scrollEnd = min(super.position.maxScrollExtent,
+            max(super.position.minScrollExtent, scrollEnd));
+        jumpTo(scrollEnd);
+      }
+    });
+  }
+}
 class Separator extends StatelessWidget {
   const Separator(this.height, {super.key});
   final double height;
@@ -246,7 +263,9 @@ class MyDrawer extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             addAutomaticKeepAlives: false,
-            cacheExtent: 2,
+            cacheExtent: 1,
+            shrinkWrap: true,
+            controller: AdjustableScrollController(10),
             children: [
               SizedBox(
                 height: 100,
