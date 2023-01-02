@@ -1224,9 +1224,27 @@ class _MyWeatherState extends State<MyWeather> {
           ),
           title: const Text('Estaciones meteorológicas', style: TextStyle(fontSize: 30),),
           content: SizedBox(
-            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: const Text('(En desarrollo)\nLas estaciones meteorológicas te permiten guardar ubicaciones para poder consultar el tiempo de cualquier sitio'),
+            child: Column(
+              children: [
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: TextButton(
+                          onPressed: (){
+                            showHelpStationsDialog(context);
+                          },
+                          child: const Icon(Icons.help)
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -1246,6 +1264,40 @@ class _MyWeatherState extends State<MyWeather> {
           ],
         );
       }
+    );
+  }
+  Future<void> showHelpStationsDialog(BuildContext context){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text('Info', style: TextStyle(fontSize: 30),),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Text('(En desarrollo)\nLas estaciones meteorológicas te permiten guardar ubicaciones para poder consultar el tiempo de cualquier sitio'),
+            ),
+            actions: <Widget>[
+              TextButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.orange),
+                    ),
+                  ),
+                ),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: const Text('Volver'),
+              )
+            ],
+          );
+        }
     );
   }
   @override
