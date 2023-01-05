@@ -259,7 +259,7 @@ class MyDrawer extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 5),
-          alignment: Alignment.center,
+          alignment: Alignment.topCenter,
           child: ListView(
             padding: EdgeInsets.zero,
             addAutomaticKeepAlives: false,
