@@ -861,14 +861,42 @@ class _MyWeatherState extends State<MyWeather> {
   List<bool> dailyCardsExpanded = [false, false, false, false, false, false];
   Color topBackgroundColor = const Color(0xFF4FB3FF);
   Color animatedBackgroundColor = const Color(0xFF4FB3FF);
+  Widget searchingButton = const Icon(Icons.search);
+  void toggleSearchingButton(bool loading){
+    if(loading){
+      setState((){
+        searchingButton = const SizedBox(
+            width: 25,
+            height: 25,
+            child: CircularProgressIndicator(
+              color: Colors.black,
+            )
+        );
+      });
+    } else {
+      setState((){
+        searchingButton = const Icon(Icons.search);
+      });
+    }
+  }
   void changeDeterminatedLocation() async {
+    toggleSearchingButton(true);
     FocusScope.of(context).unfocus();
     String address = textFieldLocationControler.text;
-    List<dynamic> locations = await locationFromAddress(address);
+    List<dynamic> locations = await locationFromAddress(address).onError((error, stackTrace){
+      return [];
+    });
+    if(locations.isEmpty){
+      toggleSearchingButton(false);
+      debugPrint("Invalid adress");
+      showInvalidAdressDialog(context);
+    }
+    else {
+      debugPrint("Direccion valida");
+    }
+    debugPrint(locations.toString());
     longitude = locations[0].longitude.toDouble();
     latitude = locations[0].latitude.toDouble();
-    debugPrint('Longitude: $longitude');
-    debugPrint('Latitude: $latitude');
     refreshWeather(searchingDeterminatedLocation : true);
   }
   void getTopBackgroundColor(int weatherCode){
@@ -1218,6 +1246,7 @@ class _MyWeatherState extends State<MyWeather> {
     if(searchingDeterminatedLocation){
       await fetchWeatherData(latitude, longitude);
       getAllValues(latitude, longitude);
+      toggleSearchingButton(false);
     } else {
       await getLocationPosition(LocationAccuracy.best);
       await fetchWeatherData(gpsLatitude, gpsLongitude).then((value){
@@ -1262,7 +1291,9 @@ class _MyWeatherState extends State<MyWeather> {
                             )
                           )
                         ),
-                        onPressed: (){},
+                        onPressed: (){
+                          showCreateStationDialog(context);
+                        },
                         child: Row(
                           children: const <Widget>[
                             Icon(Icons.add),
@@ -1326,6 +1357,117 @@ class _MyWeatherState extends State<MyWeather> {
             content: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: const Text('(En desarrollo)\nLas estaciones meteorológicas te permiten guardar ubicaciones para poder consultar el tiempo de cualquier sitio'),
+            ),
+            actions: <Widget>[
+              TextButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.orange),
+                    ),
+                  ),
+                ),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: const Text('Volver'),
+              )
+            ],
+          );
+        }
+    );
+  }
+  Future<void> showInvalidAdressDialog(BuildContext context){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text('Busqueda', style: TextStyle(fontSize: 30),),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Text('No se ha podido encontrar ninguna localización con la dirección que has introducido.'),
+            ),
+            actions: <Widget>[
+              TextButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.orange),
+                    ),
+                  ),
+                ),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: const Text('Cerrar'),
+              )
+            ],
+          );
+        }
+    );
+  }
+  Future<void> showCreateStationDialog(BuildContext context){
+    void addStation() async {
+
+    }
+    final textFieldController = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text('Crear', style: TextStyle(fontSize: 30),),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: <Widget>[
+                  const Text('Introduce el nombre de la ciudad o dirección:'),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: TextField(
+                      controller: textFieldController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50)
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                          hintText: "Introduce una dirección",
+                      ),
+                      onSubmitted: (String content){
+
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: (){},
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+
+                          )
+                        )
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(Icons.add),
+                          Text('Crear', style: TextStyle(), maxLines: 1, overflow: TextOverflow.fade,)
+                        ],
+                      )
+                  )
+                ],
+              ),
             ),
             actions: <Widget>[
               TextButton(
@@ -1428,10 +1570,16 @@ class _MyWeatherState extends State<MyWeather> {
                               height: 60,
                               child: TextField(
                                 controller: textFieldLocationControler,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(50)
+                                  ),
                                   hintText: "Introduce una dirección"
                                 ),
+                                onSubmitted: (String content){
+                                  changeDeterminatedLocation();
+                                },
                               ),
                             ),
                             const SizedBox(
@@ -1440,7 +1588,17 @@ class _MyWeatherState extends State<MyWeather> {
                             SizedBox(
                               width: 60,
                               height: 58,
-                              child: ElevatedButton(onPressed: changeDeterminatedLocation, child: const Icon(Icons.search)),
+                              child: ElevatedButton(
+                                onPressed: (){
+                                  changeDeterminatedLocation();
+                                },
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50)
+                                    ))
+                                ),
+                                child: searchingButton,
+                              ),
                             ),
                             const SizedBox(
                               width: 5,
@@ -1448,7 +1606,14 @@ class _MyWeatherState extends State<MyWeather> {
                             SizedBox(
                               width: 60,
                               height: 58,
-                              child: ElevatedButton(onPressed: ()=> showStationsDialog(context), child: const Icon(Icons.menu)),
+                              child: ElevatedButton(
+                                  onPressed: ()=> showStationsDialog(context),
+                                  style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(50)
+                                      ))
+                                  ),
+                                  child: const Icon(Icons.menu)),
                             ),
                           ],
                         ),
@@ -1948,7 +2113,7 @@ Future<bool> lastUpdate() async {
   return true;
 }
 int appVersion(){
-  return 304;
+  return 305;
 }
 Future<void> getOnlineData() async {
   final res = await http.get(Uri.parse('https://raw.githubusercontent.com/oriolgds/orsapps/main/data.json'));
