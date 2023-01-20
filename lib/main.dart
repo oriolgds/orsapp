@@ -20,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
 double gpsLongitude = 0;
 double gpsLatitude = 0;
 Map<dynamic, dynamic> jsonWeather = {};
@@ -308,6 +309,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 bool updatesModalShown = false;
+bool notSuportWeb = false;
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController _scrollController;
   String topText = "¡Hola! Bienvenido a Ors Apps. Una aplicación de utilidades que te facilitara el dia a dia.";
@@ -331,6 +333,38 @@ class _MyHomePageState extends State<MyHomePage> {
         updatesDialog(context);
       }
     });
+    if(!notSuportWeb && GetPlatform.isWeb){
+      webSuport(context);
+      notSuportWeb = true;
+    }
+  }
+  Future<void> webSuport(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+          ),
+          title: const Text('Alerta'),
+          content: const Text('Hay funcionalidades en la demo que pueden tener errores. Como es el caso del módulo del tiempo o el de la linterna.'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  )
+              ),
+              child: const Text('Entendido'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
   Future<void> updatesDialog(BuildContext context) {
     return showDialog<void>(
@@ -414,9 +448,9 @@ class _MyHomePageState extends State<MyHomePage> {
               const Separator(10),
               Text(topText, style: const TextStyle(fontSize: 25, fontFamily: 'Fredoka'), textAlign: TextAlign.justify),
               const Separator(0),
-              const CreateCard('Ors Weather', 'Consulta la previsión del clima en un click', 'lib/assets/card-img/weather.jpg', MyWeather()),
-              const CreateCard('Ors Compass', '¿Tienes curiosidad por los puntos cardinales?\n¡Usa Ors Compass!\nLa brújula más completa del mercado', 'lib/assets/card-img/brujula.png', MyCompass()),
-              const CreateCard('Ors Light', '¿Estás en la oscuridad?\n¿No ves absolutamente nada?\nCreo que esta herramienta te puede ayudar...', 'lib/assets/card-img/bulb.jpg', MyLight()),
+              const CreateCard('Clima', 'Consulta la previsión del clima en un click', 'lib/assets/card-img/weather.jpg', MyWeather()),
+              const CreateCard('Brújula', '¿Tienes curiosidad por los puntos cardinales?\n¡Usa Ors Compass!\nLa brújula más completa del mercado', 'lib/assets/card-img/brujula.png', MyCompass()),
+              const CreateCard('Linterna', '¿Estás en la oscuridad?\n¿No ves absolutamente nada?\nCreo que esta herramienta te puede ayudar...', 'lib/assets/card-img/bulb.jpg', MyLight()),
             ],
           ),
         ),
@@ -1520,7 +1554,7 @@ class _MyWeatherState extends State<MyWeather> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(65),
           child: AppBar(
-            title: const Text('Clima', style: TextStyle(fontFamily: 'Aclonica', fontSize: 35, height: 2.2, overflow: TextOverflow.fade)),
+            title: const Text('Clima', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, overflow: TextOverflow.fade, height: 1.5)),
             leading: Builder(
               builder: (BuildContext context) {
                 return Container(
