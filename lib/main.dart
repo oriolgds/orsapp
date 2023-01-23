@@ -21,6 +21,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
 double gpsLongitude = 0;
 double gpsLatitude = 0;
 Map<dynamic, dynamic> jsonWeather = {};
@@ -291,7 +293,7 @@ class MyDrawer extends StatelessWidget {
               DrawerItem('Brújula', Icons.compass_calibration_rounded, context, routeShowPage(const MyCompass())),
               DrawerItem('Linterna', Icons.lightbulb_rounded, context, routeShowPage(const MyLight())),
               DrawerItem('Clima', Icons.sunny, context, routeShowPage(const MyWeather())),
-              //DrawerItem('Translate', Icons.translate, context, const Translate()),
+              DrawerItem('Traductor', Icons.translate, context, routeShowPage(const Translate())),
               DrawerItem('Configuración', Icons.settings, context, routeShowPageVertical(const Settings())),
               DrawerItem('Acerca de', Icons.info_outline_rounded, context, routeShowPageVertical(const Creditos())),
             ],
@@ -312,13 +314,26 @@ bool updatesModalShown = false;
 bool notSuportWeb = false;
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController _scrollController;
+  double topTextSeparatorHeight = 0;
+  double topTextFontSize = 0;
   String topText = "¡Hola! Bienvenido a Ors Apps. Una aplicación de utilidades que te facilitara el dia a dia.";
   Future<void> getTopText() async {
     final prefs = await SharedPreferences.getInstance();
     if(prefs.getString('onlineData') != null){
-      setState(() {
-        topText = jsonDecode(prefs.getString('onlineData').toString())['home']['topText'];
-      });
+      if(jsonDecode(prefs.getString('onlineData').toString())['home']['topText'] == 'void'){
+        setState(() {
+          topText= "";
+          topTextFontSize = 0;
+          topTextSeparatorHeight = 0;
+        });
+      }
+      else {
+        setState(() {
+          topText = jsonDecode(prefs.getString('onlineData').toString())['home']['topText'];
+          topTextFontSize = 25;
+          topTextSeparatorHeight = 10;
+        });
+      }
     }
   }
   @override
@@ -445,8 +460,8 @@ class _MyHomePageState extends State<MyHomePage> {
             spacing: 10,
             runSpacing: 10,
             children: <Widget>[
-              const Separator(10),
-              Text(topText, style: const TextStyle(fontSize: 25, fontFamily: 'Fredoka'), textAlign: TextAlign.justify),
+              Separator(topTextSeparatorHeight),
+              Text(topText, style: TextStyle(fontSize: topTextFontSize, fontFamily: 'Fredoka'), textAlign: TextAlign.justify),
               const Separator(0),
               const CreateCard('Clima', 'Consulta la previsión del clima en un click', 'lib/assets/card-img/weather.jpg', MyWeather()),
               const CreateCard('Brújula', '¿Tienes curiosidad por los puntos cardinales?\n¡Usa Ors Compass!\nLa brújula más completa del mercado', 'lib/assets/card-img/brujula.png', MyCompass()),
@@ -1283,6 +1298,10 @@ class _MyWeatherState extends State<MyWeather> {
       toggleSearchingButton(false);
     } else {
       await getLocationPosition(LocationAccuracy.best);
+      setState((){
+        latitude = gpsLatitude;
+        longitude = gpsLongitude;
+      });
       await fetchWeatherData(gpsLatitude, gpsLongitude).then((value){
         debugPrint("Returned value $value");
         if(value == 1){
@@ -1723,8 +1742,30 @@ class _MyWeatherState extends State<MyWeather> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 1000,
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Card(
+                          child: SisezBox(
+                            height: 300,
+                            child: FlutterMap(
+                              options: MapOptions(
+                                center: LatLng(latitude, longitude),
+                              ),
+                              nonRotatedChildren: [
+                                AttributionWidget.defaultWidget(
+                                  source: 'Ors Maps',
+                                  onSourceTapped: null,
+                                ),
+                              ],
+                              children: [
+                                TileLayer(
+                                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                  userAgentPackageName: 'orsapps.22web.org',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ]
                 ),
