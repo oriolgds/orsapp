@@ -1745,7 +1745,7 @@ class _MyWeatherState extends State<MyWeather> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 10),
                         child: Card(
-                          child: SisezBox(
+                          child: SizedBox(
                             height: 300,
                             child: FlutterMap(
                               options: MapOptions(
